@@ -1,6 +1,8 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Input.Touch;
+using System.Diagnostics;
 
 namespace GameDevelopment
 {
@@ -11,6 +13,12 @@ namespace GameDevelopment
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
+
+        int windowWidth, windowHeigt;
+        Texture2D Jumper, Background;
+        string _UserControl;
+
+
 
         public Game1()
         {
@@ -45,6 +53,12 @@ namespace GameDevelopment
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
+            //Jumper = Content.Load<Texture2D>("Jumper");
+            //Background = Content.Load<Texture2D>("Background");
+
+            windowWidth = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width;
+            windowHeigt = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height;
+
             // TODO: use this.Content to load your game content here
         }
 
@@ -67,6 +81,10 @@ namespace GameDevelopment
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 Exit();
 
+            _UserControl = (new UserControl(windowWidth)).GetTap();
+
+            Debug.WriteLine(_UserControl);
+
             // TODO: Add your update logic here
 
             base.Update(gameTime);
@@ -81,6 +99,11 @@ namespace GameDevelopment
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             // TODO: Add your drawing code here
+            //spriteBatch.Begin();
+
+            //spriteBatch.Draw(Background, new Rectangle(0, 0, windowWidth, windowHeigt), Color.White);
+
+            //spriteBatch.End();
 
             base.Draw(gameTime);
         }
