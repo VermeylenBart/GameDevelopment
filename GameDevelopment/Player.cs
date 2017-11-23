@@ -17,7 +17,7 @@ namespace GameDevelopment
     class Player
     {
         private Texture2D _texture;
-        private Rectangle _viewRectangle, _viewRectangle2, _currentView;
+        private Rectangle _viewRectangle;
         public Rectangle _coalition;
 
 
@@ -28,10 +28,7 @@ namespace GameDevelopment
 
             Positie = new Vector2(100, 100);
             _viewRectangle = new Rectangle(0, 0, 110, 81);
-            _viewRectangle2 = new Rectangle(0, 81, 110, 81);
            // _coalition = new Rectangle((int)Positie.X, (int)Positie.Y, 64, 205);
-
-            _currentView = _viewRectangle;
 
         }
 
@@ -43,13 +40,13 @@ namespace GameDevelopment
             {
                 case "left":
                     Positie.X -= 1;
-                    _currentView = _viewRectangle2;
+                    _viewRectangle.Y = 81;
                     break;
                 case "right":
                     Positie.X += 1;
-                    _currentView = _viewRectangle;
+                    _viewRectangle.Y = 0;
                     break;
-                case "nothing":
+                default:
                     break;
             }
 
@@ -57,7 +54,7 @@ namespace GameDevelopment
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(_texture, Positie, _currentView, Color.White);
+            spriteBatch.Draw(_texture, Positie, _viewRectangle, Color.White);
         }
     }
 }
