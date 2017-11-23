@@ -17,6 +17,7 @@ namespace GameDevelopment
         int windowWidth, windowHeigt;
         Texture2D Jumper, Background;
         string _UserControl;
+        Player player;
 
 
 
@@ -53,8 +54,10 @@ namespace GameDevelopment
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            //Jumper = Content.Load<Texture2D>("Jumper");
+            Jumper = Content.Load<Texture2D>("Jumper");
             //Background = Content.Load<Texture2D>("Background");
+
+            player = new Player(Jumper);
 
             windowWidth = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width;
             windowHeigt = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height;
@@ -83,7 +86,7 @@ namespace GameDevelopment
 
             _UserControl = (new UserControl(windowWidth)).GetTap();
 
-            Debug.WriteLine(_UserControl);
+            player.Update(_UserControl);
 
             // TODO: Add your update logic here
 
@@ -99,11 +102,13 @@ namespace GameDevelopment
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             // TODO: Add your drawing code here
-            //spriteBatch.Begin();
+            spriteBatch.Begin();
+
+            player.Draw(spriteBatch);
 
             //spriteBatch.Draw(Background, new Rectangle(0, 0, windowWidth, windowHeigt), Color.White);
 
-            //spriteBatch.End();
+            spriteBatch.End();
 
             base.Draw(gameTime);
         }
