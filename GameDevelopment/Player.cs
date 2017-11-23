@@ -26,7 +26,7 @@ namespace GameDevelopment
         {
             _texture = texture;
 
-            Positie = new Vector2(100, 100);
+            Positie = new Vector2(0, 0);
             _viewRectangle = new Rectangle(0, 0, 110, 81);
            // _coalition = new Rectangle((int)Positie.X, (int)Positie.Y, 64, 205);
 
