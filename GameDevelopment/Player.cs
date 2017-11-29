@@ -18,32 +18,50 @@ namespace GameDevelopment
     {
         private Texture2D _texture;
         private Rectangle _viewRectangle;
-        public Rectangle _coalition;
+        private Rectangle _coalition;
+        private int _width, _height;
 
 
 
-        public Player(Texture2D texture)
+        public Player(Texture2D texture, int width, int height)
         {
             _texture = texture;
+            _width = width;
+            _height = height;
+            _viewRectangle = new Rectangle(0, 0, 330, 243);
 
-            Positie = new Vector2(0, 0);
-            _viewRectangle = new Rectangle(0, 0, 110, 81);
+            Positie = new Vector2(0, _height-_viewRectangle.Height);
+            
            // _coalition = new Rectangle((int)Positie.X, (int)Positie.Y, 64, 205);
 
         }
 
         public Vector2 Positie;
 
-        public void Update(String Side)
+        private void _moving(int speed)
         {
-            switch (Side)
+            Positie.X += speed;
+
+            if (Positie.X <= 0-_viewRectangle.Width)
             {
-                case "left":
-                    Positie.X -= 1;
-                    _viewRectangle.Y = 81;
+                Positie.X = _width;
+            }
+            else if (Positie.X > _width)
+            {
+                Positie.X = 0-_viewRectangle.Width;
+            }
+        }
+
+        public void Update(Side side)
+        {
+            switch (side)
+            {
+                case Side.left:
+                    _moving(-10);
+                    _viewRectangle.Y = _viewRectangle.Height;
                     break;
-                case "right":
-                    Positie.X += 1;
+                case Side.right:
+                    _moving(10);
                     _viewRectangle.Y = 0;
                     break;
                 default:

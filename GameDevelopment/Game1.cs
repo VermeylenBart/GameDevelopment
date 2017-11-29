@@ -16,8 +16,9 @@ namespace GameDevelopment
 
         int windowWidth, windowHeight;
         Texture2D Jumper, Background;
-        string _UserControl;
+        Side _UserControl;
         Player player;
+        
 
 
 
@@ -27,10 +28,7 @@ namespace GameDevelopment
             Content.RootDirectory = "Content";
 
             graphics.IsFullScreen = true;
-            //graphics.PreferredBackBufferWidth = 800;
-            //graphics.PreferredBackBufferHeight = 480;
-            graphics.SupportedOrientations = DisplayOrientation.Portrait | DisplayOrientation.PortraitDown;
-            graphics.ApplyChanges();
+
         }
 
         /// <summary>
@@ -58,10 +56,12 @@ namespace GameDevelopment
             Jumper = Content.Load<Texture2D>("Jumper");
             Background = Content.Load<Texture2D>("Background");
 
-            player = new Player(Jumper);
+           
 
             windowWidth = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width;
             windowHeight = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height;
+
+            player = new Player(Jumper, windowWidth, windowHeight);
 
             Debug.WriteLine("Width: " + windowWidth);
             Debug.WriteLine("Height: " + windowHeight);
@@ -108,7 +108,7 @@ namespace GameDevelopment
             // TODO: Add your drawing code here
             spriteBatch.Begin();
 
-            spriteBatch.Draw(Background, new Vector2(0,0), new Rectangle(0,0,680, windowHeight), Color.White);
+            spriteBatch.Draw(Background, new Vector2(0, 0), new Rectangle(0, 2760, windowWidth, windowHeight), Color.White);
             player.Draw(spriteBatch);
 
             spriteBatch.End();

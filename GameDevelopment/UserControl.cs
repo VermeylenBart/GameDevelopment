@@ -13,30 +13,39 @@ using Microsoft.Xna.Framework.Input.Touch;
 
 namespace GameDevelopment
 {
+
+    public enum Side
+    {
+        left,
+        right,
+        nothing
+    }
+
     class UserControl
     {
         private int _Width;
 
         private TouchCollection touchCollection = TouchPanel.GetState();
+        
 
         public UserControl(int width)
         {
             this._Width = width;
         }
 
-        public String GetTap()
+        public Side GetTap()
         {
             if (touchCollection.Count > 0)
             {
                 if (touchCollection[0].Position.X <= (this._Width / 2) - 20)
                 {
-                    return "left";
+                    return Side.left;
                 }else if (touchCollection[0].Position.X >= (this._Width / 2) + 20)
                 {
-                    return "right";
+                    return Side.right;
                 }
             }
-            return "nothing";
+            return Side.nothing;
         }
     }
 }
