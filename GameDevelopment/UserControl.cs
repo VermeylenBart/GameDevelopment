@@ -18,6 +18,7 @@ namespace GameDevelopment
     {
         left,
         right,
+        jump,
         nothing
     }
 
@@ -37,13 +38,16 @@ namespace GameDevelopment
         {
             if (touchCollection.Count > 0)
             {
-                if (touchCollection[0].Position.X <= (this._Width / 2) - 20)
+                if (touchCollection[0].Position.X <= (this._Width / 2) - 100)
                 {
                     return Side.left;
-                }else if (touchCollection[0].Position.X >= (this._Width / 2) + 20)
+                }
+                else if (touchCollection[0].Position.X >= (this._Width / 2) + 100)
                 {
                     return Side.right;
                 }
+                else if (touchCollection[0].Position.X > (this._Width / 2) - 100 && touchCollection[0].Position.X < (this._Width / 2) + 100)
+                    return Side.jump;
             }
             return Side.nothing;
         }

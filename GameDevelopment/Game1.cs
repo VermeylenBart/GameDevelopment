@@ -18,7 +18,9 @@ namespace GameDevelopment
         Texture2D Jumper, Background;
         Side _UserControl;
         Player player;
-        
+
+        public Rectangle ground;
+
 
 
 
@@ -56,15 +58,14 @@ namespace GameDevelopment
             Jumper = Content.Load<Texture2D>("Jumper");
             Background = Content.Load<Texture2D>("Background");
 
-           
+
 
             windowWidth = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width;
             windowHeight = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height;
 
             player = new Player(Jumper, windowWidth, windowHeight);
 
-            Debug.WriteLine("Width: " + windowWidth);
-            Debug.WriteLine("Height: " + windowHeight);
+            ground = new Rectangle(0, (int)windowHeight-450, (int)windowWidth, 100);
 
             // TODO: use this.Content to load your game content here
         }
@@ -90,9 +91,12 @@ namespace GameDevelopment
 
             _UserControl = (new UserControl(windowWidth)).GetTap();
 
-            player.Update(_UserControl);
+           
 
             // TODO: Add your update logic here
+           
+
+            player.Update(_UserControl, gameTime);
 
             base.Update(gameTime);
         }
