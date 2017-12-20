@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Input.Touch;
+using System.Collections.Generic;
 using System.Diagnostics;
 
 namespace GameDevelopment
@@ -15,11 +16,16 @@ namespace GameDevelopment
         SpriteBatch spriteBatch;
 
         int windowWidth, windowHeight;
-        Texture2D Jumper, Background;
+        Texture2D Jumper, Background, GameBlock;
         Side _UserControl;
         Player player;
+        Block block;
+
+
 
         public Rectangle ground;
+
+        List<ICollide> collideObjecten;
 
 
 
@@ -55,8 +61,10 @@ namespace GameDevelopment
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
+            // add the sprites
             Jumper = Content.Load<Texture2D>("Jumper");
             Background = Content.Load<Texture2D>("Background");
+            GameBlock = Content.Load<Texture2D>("Block");
 
 
 
@@ -65,7 +73,13 @@ namespace GameDevelopment
 
             player = new Player(Jumper, windowWidth, windowHeight);
 
-            ground = new Rectangle(0, (int)windowHeight-450, (int)windowWidth, 100);
+            ground = new Rectangle(0, (int)windowHeight-100, (int)windowWidth, 100);
+            
+            block = new Block(GameBlock, windowWidth);
+
+            collideObjecten = new List<ICollide>();
+
+            collideObjecten.Add(block);
 
             // TODO: use this.Content to load your game content here
         }
@@ -77,6 +91,23 @@ namespace GameDevelopment
         protected override void UnloadContent()
         {
             // TODO: Unload any non ContentManager content here
+        }
+
+        private bool CheckCollision()
+        {
+
+            if (player.GetCollisionRectangle().Intersects(ground))
+                return true;
+
+            for (int i = 0; i < collideObjecten.Count; i++)
+            {
+                if (player.GetCollisionRectangle().Intersects(collideObjecten[i].GetCollisionRectangle()))
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
 
         /// <summary>
@@ -91,12 +122,17 @@ namespace GameDevelopment
 
             _UserControl = (new UserControl(windowWidth)).GetTap();
 
+            if (CheckCollision() && player.isJumping)
+            {
+                player.isCollide = true;
+            }
+
            
 
             // TODO: Add your update logic here
            
 
-            player.Update(_UserControl, gameTime);
+            player.Update(_UserControl);
 
             base.Update(gameTime);
         }
@@ -113,6 +149,7 @@ namespace GameDevelopment
             spriteBatch.Begin();
 
             spriteBatch.Draw(Background, new Vector2(0, 0), new Rectangle(0, 2760, windowWidth, windowHeight), Color.White);
+            block.Draw(spriteBatch);
             player.Draw(spriteBatch);
 
             spriteBatch.End();

@@ -14,15 +14,16 @@ using Microsoft.Xna.Framework;
 
 namespace GameDevelopment
 {
-    class Player
+    class Player : ICollide
     {
         private Texture2D _texture;
         public Vector2 Position, Velocity;
-        private bool isJumping;
+        public bool isJumping;
         private const float LandPosition = 1000f;
         private Rectangle _viewRectangle;
-        public Rectangle _coalition;
+        private Rectangle _coalition;
         private int _width, _height;
+        public bool isCollide;
 
 
 
@@ -34,12 +35,13 @@ namespace GameDevelopment
             _height = height;
             _viewRectangle = new Rectangle(0, 0, _texture.Width, _texture.Height/4);
 
-            Position = new Vector2(0, 0);  //_height-_viewRectangle.Height);
+            Position = new Vector2(0, _height-_viewRectangle.Height);
 
             Velocity = Vector2.Zero;
-            isJumping = true;
+            isJumping = false;
+            isCollide = false;
 
-            _coalition = new Rectangle((int)Position.X, (int)Position.Y, _viewRectangle.Width, 100);
+            _coalition = new Rectangle((int)Position.X+10, (int)Position.Y + _texture.Height, _viewRectangle.Width-20, 20);
 
         }
 
@@ -57,7 +59,7 @@ namespace GameDevelopment
             }
         }
 
-        public void Update(Side side, GameTime gameTime)
+        public void Update(Side side)
         {
 
             if (!isJumping)
@@ -67,11 +69,11 @@ namespace GameDevelopment
             else
             {
                 Velocity.Y++;
-                if (Position.Y >= _height - _viewRectangle.Height)
+                if (isCollide)
                 {
-                    Position.Y = _height - _viewRectangle.Height;
                     Velocity.Y = 0;
                     isJumping = false;
+                    isCollide = false;
                 }
             }
             
@@ -108,6 +110,11 @@ namespace GameDevelopment
         public void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(_texture, Position, _viewRectangle, Color.White);
+        }
+
+        public Rectangle GetCollisionRectangle()
+        {
+            return _coalition;
         }
     }
 }
